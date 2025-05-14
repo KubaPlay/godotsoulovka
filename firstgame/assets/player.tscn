@@ -195,7 +195,7 @@ radius = 7.0
 
 [node name="player" type="CharacterBody2D"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Animace" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7rrun")
 animation = &"idle"
 frame_progress = 0.443599
