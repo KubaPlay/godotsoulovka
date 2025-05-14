@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://crv5p1ym8ufhj"]
+[gd_scene load_steps=8 format=3 uid="uid://crv5p1ym8ufhj"]
 
 [ext_resource type="PackedScene" uid="uid://beqqauuw7q5p1" path="res://assets/player.tscn" id="1_7dyq5"]
+[ext_resource type="Script" uid="uid://bjlbdil7w237b" path="res://scenes/scene_tutorial.gd" id="1_kd7jy"]
 [ext_resource type="Texture2D" uid="uid://cxm7tvkvddujc" path="res://assets/Fort of Illusion Files/Layers/tileset.png" id="2_y2ut2"]
 [ext_resource type="PackedScene" uid="uid://c8q45y88hk4k" path="res://assets/enemy.tscn" id="3_y2ut2"]
 
@@ -74,13 +75,14 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_7dyq5")
 sources/0 = SubResource("TileSetAtlasSource_kd7jy")
 
-[node name="scene-tutorial" type="Node2D"]
+[node name="scene_tutorial" type="Node2D"]
+script = ExtResource("1_kd7jy")
 
 [node name="player" parent="." instance=ExtResource("1_7dyq5")]
 position = Vector2(0, -8)
 
 [node name="Camera2D" type="Camera2D" parent="player"]
-position = Vector2(0, 8)
+position = Vector2(-1, 8)
 zoom = Vector2(2.5, 2.5)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

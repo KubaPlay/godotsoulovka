@@ -1,25 +1,31 @@
 extends CharacterBody2D
 
+var speed: float = 100.0
+var patrol_range: float = 150.0
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-var health= 100
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+var direction: int = 1
+var start_x_position: float
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+var sprite_node: Sprite2D
 
+
+func _ready():
+	start_x_position = global_position.x
+
+
+func _physics_process(delta: float):
+	velocity.x = direction * speed
 	move_and_slide()
+
+	if direction == 1 and global_position.x >= start_x_position + patrol_range:
+		direction = -1
+		global_position.x = start_x_position + patrol_range
+		if sprite_node:
+			sprite_node.flip_h = true
+	elif direction == -1 and global_position.x <= start_x_position - patrol_range:
+		direction = 1
+		global_position.x = start_x_position - patrol_range
+		if sprite_node:
+			sprite_node.flip_h = false

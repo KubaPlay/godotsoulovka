@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdg64fftuy02n"]
+
+[ext_resource type="Script" uid="uid://dewwhp1mm7sg8" path="res://menu.gd" id="1_yqeox"]
+[ext_resource type="Script" uid="uid://bd4iml286as7" path="res://assets/close_game.gd" id="2_vjb58"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.11553, 2.12852)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_direction = 1
+layout_mode = 1
+offset_left = -67.5954
+offset_top = -44.632
+offset_right = 31.4046
+offset_bottom = 21.368
+scale = Vector2(1.3637, 1.3637)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Spustit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+script = ExtResource("1_yqeox")
+
+[node name="Close Game" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Close Game"
+script = ExtResource("2_vjb58")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(0.989124, 1.20319)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
