@@ -5,3 +5,5 @@
 [node name="game-intro" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_b3npn")]
+
+[node name="player2" parent="." instance=ExtResource("1_b3npn")]
