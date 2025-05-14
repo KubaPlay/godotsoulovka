@@ -6,6 +6,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 
-	if Input.is_action_just_pressed("Esc"):
+	if Input.is_action_just_pressed("ui_cancel"):
 		print("Akce 'ui_cancel' (Esc) byla stisknuta. Měním scénu na menu...")
 		get_tree().change_scene_to_file("res://scenes/menu.tscn")
