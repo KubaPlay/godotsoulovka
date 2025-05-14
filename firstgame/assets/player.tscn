@@ -270,7 +270,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_uef55")
 }],
-"loop": true,
+"loop": false,
 "name": &"m1",
 "speed": 12.0
 }, {
@@ -302,7 +302,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ifsbl")
 }],
-"loop": true,
+"loop": false,
 "name": &"m2",
 "speed": 12.0
 }, {
@@ -345,8 +345,9 @@ script = ExtResource("1_rug40")
 [node name="Animace" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7rrun")
 animation = &"m2"
-frame_progress = 0.421389
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_2asft")
+
+[connection signal="animation_finished" from="Animace" to="." method="_on_animace_animation_finished"]

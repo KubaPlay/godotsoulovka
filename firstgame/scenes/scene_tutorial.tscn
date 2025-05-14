@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://beqqauuw7q5p1" path="res://assets/player.tscn" id="1_7dyq5"]
 [ext_resource type="Script" uid="uid://bjlbdil7w237b" path="res://scenes/scene_tutorial.gd" id="1_kd7jy"]
 [ext_resource type="Texture2D" uid="uid://cxm7tvkvddujc" path="res://assets/Fort of Illusion Files/Layers/tileset.png" id="2_y2ut2"]
-[ext_resource type="PackedScene" uid="uid://c8q45y88hk4k" path="res://assets/enemy.tscn" id="3_y2ut2"]
+[ext_resource type="PackedScene" path="res://assets/enemy.tscn" id="3_y2ut2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7dyq5"]
 
