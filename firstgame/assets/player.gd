@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 
 const SPEED = 150.0
-const JUMP_VELOCITY = -220.0
+const JUMP_VELOCITY = -250.0
 
 var running = false
 var jumping = false 
+var attacking = false
 
 
 @onready var sprite = $Animace
@@ -54,11 +55,12 @@ func _physics_process(delta: float) -> void:
 		sprite.play("run")
 	elif !running and is_on_floor() and !jumping:
 		sprite.play("idle")
-	elif jumping:
+	elif !is_on_floor():
 		sprite.play("jump")
 	
 	print("skáče?: ", jumping)
 	print("běží?: ", running)
 	print("je na zemi?: ", is_on_floor())
+	print("utoci?: ", attacking)
 	
 	move_and_slide()
