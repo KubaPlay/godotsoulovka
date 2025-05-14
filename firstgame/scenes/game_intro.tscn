@@ -6,4 +6,8 @@
 
 [node name="player" parent="." instance=ExtResource("1_b3npn")]
 
+<<<<<<< Updated upstream
 [node name="majkl" parent="." instance=ExtResource("1_b3npn")]
+=======
+[node name="kakkakaa" parent="." instance=ExtResource("1_b3npn")]
+>>>>>>> Stashed changes
