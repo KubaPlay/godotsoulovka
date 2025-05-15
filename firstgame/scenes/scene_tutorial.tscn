@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dpdda732yt6tu"]
+[gd_scene load_steps=24 format=3 uid="uid://dpdda732yt6tu"]
 
 [ext_resource type="PackedScene" uid="uid://beqqauuw7q5p1" path="res://assets/player.tscn" id="1_7dyq5"]
 [ext_resource type="Script" uid="uid://bjlbdil7w237b" path="res://scenes/scene_tutorial.gd" id="1_kd7jy"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cs32j1g3w1t86" path="res://assets/Tileset_Darksouls/TILESET_darksouls1.png" id="4_xns12"]
 [ext_resource type="Texture2D" uid="uid://bhoi7sjo4lcpy" path="res://assets/Tileset_Darksouls/TILESET_darksouls2.png" id="5_00iyf"]
 [ext_resource type="Texture2D" uid="uid://b3hqmk1om1hj5" path="res://assets/Tileset_Darksouls/TILESET_darksouls4.png" id="6_j3oho"]
+[ext_resource type="Script" uid="uid://bv2llqc2hmpc0" path="res://scenes/player_health_bar.gd" id="8_j3oho"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7dyq5"]
 
@@ -74,7 +75,7 @@ texture = ExtResource("2_y2ut2")
 11:6/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_3xkoe"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_7dyq5")
 sources/0 = SubResource("TileSetAtlasSource_kd7jy")
 
@@ -754,7 +755,8 @@ texture = ExtResource("6_j3oho")
 15:14/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_v6mqf"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_m4grj")
 sources/1 = SubResource("TileSetAtlasSource_5r265")
 sources/2 = SubResource("TileSetAtlasSource_20ocx")
@@ -1017,6 +1019,9 @@ default_font = SubResource("SystemFont_xns12")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5r265"]
 bg_color = Color(0, 0, 0, 0.313726)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4grj"]
+bg_color = Color(0, 0.725154, 0.210432, 1)
+
 [node name="scene_tutorial" type="Node2D"]
 script = ExtResource("1_kd7jy")
 
@@ -1072,3 +1077,14 @@ virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 empty_selection_clipboard_enabled = false
 use_default_word_separators = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = -188.0
+offset_top = -114.0
+offset_right = -184.0
+offset_bottom = -87.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_m4grj")
+show_percentage = false
+script = ExtResource("8_j3oho")

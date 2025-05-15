@@ -75,7 +75,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not sprite: return # Pokud sprite není načten, nic nedělat
-
 	match current_state:
 		State.IDLE:
 			_state_idle(delta)
@@ -87,6 +86,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
+func _on_EnemyAttackHitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player_character"): # Make sure player is in this group too
+		print(name + " zasáhl hráče!")
+		if body.has_method("take_damage"):
+			body.take_damage(ATTACK_DAMAGE) # ATTACK_DAMAGE is defined in your enemy script
+		
+		if enemy_attack_hitbox:
+			enemy_attack_hitbox.monitoring = false
 
 func _state_idle(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
@@ -109,7 +116,7 @@ func _state_chasing(delta: float) -> void:
 			sprite.flip_h = (player.global_position.x < global_position.x)
 		print(name + " útočí (ze stavu CHASING)!")
 		if action_anim_player: # Pokud existuje, spustí animaci hitboxu
-			action_anim_player.play("enemy_m1_hitbox") # Ujistěte se, že máte tuto animaci
+			action_anim_player.play("m1") # Ujistěte se, že máte tuto animaci
 		return # Po zahájení útoku již nepokračuj v tomto framu s logikou CHASING
 
 	var direction_to_player = (player.global_position - global_position).normalized()
@@ -177,7 +184,7 @@ func _on_AttackRange_body_entered(body: Node2D) -> void:
 			sprite.play("m1")
 			if player: sprite.flip_h = (player.global_position.x < global_position.x)
 			print(name + " útočí (z _on_AttackRange_body_entered)!")
-			if action_anim_player: action_anim_player.play("enemy_m1_hitbox")
+			if action_anim_player: action_anim_player.play("m1")
 
 
 func _on_AttackRange_body_exited(body: Node2D) -> void:
@@ -209,7 +216,7 @@ func _on_Sprite_animation_finished() -> void:
 		is_attacking = false
 		attack_cooldown_timer.start() # Spusť cooldown
 
-		if enemy_attack_hitbox and action_anim_player and action_anim_player.current_animation == "enemy_m1_hitbox":
+		if enemy_attack_hitbox and action_anim_player and action_anim_player.current_animation == "m1":
 			# Není standardní, ale pokud chcete hitbox deaktivovat zde (lepší je v animaci hitboxu)
 			pass # enemy_attack_hitbox.monitoring = false
 
@@ -222,22 +229,9 @@ func _on_Sprite_animation_finished() -> void:
 		elif player_in_detection_range and player:
 			current_state = State.CHASING
 		else:
-			current_state = State.IDLE
+			current_state = State.IDLEs
 			player = null # Pokud není v žádném dosahu, zapomeň na něj
 
 
 # Hitbox metoda - MUSÍTE SI BÝT JISTÍ, ŽE JE TENTO SIGNÁL PŘIPOJEN V EDITORU
 # NEBO PROGRAMOVĚ A ŽE collision_layer/mask JE SPRÁVNĚ
-func _on_EnemyAttackHitbox_body_entered(body: Node2D) -> void:
-	# Předpokládá, že EnemyAttackHitbox je aktivován POUZE během útoku
-	# (buď přes AnimationPlayer nebo manuálně ve skriptu)
-	if body.is_in_group("player"): # Nepřítel zasáhl hráče
-		print(name + " zasáhl hráče!")
-		if body.has_method("take_damage"):
-			body.take_damage(ATTACK_DAMAGE)
-		
-		# Zabraňte vícenásobným zásahům, pokud chcete
-		if enemy_attack_hitbox:
-			enemy_attack_hitbox.monitoring = false # Deaktivuje hitbox po prvním zásahu tohoto "swingu"
-												  # Lepší by bylo spravovat přes AnimationPlayer,
-												  # který nastaví monitoring na true jen na aktivních snímcích.

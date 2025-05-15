@@ -464,6 +464,7 @@ animations = [{
 radius = 7.0
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 6
 script = ExtResource("1_rug40")
 
 [node name="Animace" type="AnimatedSprite2D" parent="."]
@@ -473,5 +474,13 @@ animation = &"m1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_2asft")
+
+[node name="DodgeDurationTimer" type="Timer" parent="."]
+
+[node name="DodgeCooldownTimer" type="Timer" parent="."]
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
+
+[node name="ComboWindowTimer" type="Timer" parent="." groups=["player_character"]]
 
 [connection signal="animation_finished" from="Animace" to="." method="_on_animace_animation_finished"]
