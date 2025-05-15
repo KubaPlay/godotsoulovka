@@ -24,7 +24,7 @@ var can_attack: bool = true
 @onready var attack_range_area: Area2D = $AttackRange # Toto by mělo být Area2D
 @onready var attack_cooldown_timer: Timer = $AttackCooldownTimer # Toto by mělo být Timer
 @onready var enemy_attack_hitbox: Area2D = $EnemyAttackHitbox # Pokud máte, je to Area2D
-@onready var action_anim_player: AnimatedSprite2D = $ActionAnimationPlayer # Toto by mělo být AnimationPlayer
+@onready var action_anim_player: AnimationPlayer = $AnimationPlayer # Toto by mělo být AnimationPlayer
 
 # Stavy pro jednoduchou AI
 enum State { IDLE, CHASING, ATTACKING }
