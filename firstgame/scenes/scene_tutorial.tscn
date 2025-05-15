@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://dpdda732yt6tu"]
+[gd_scene load_steps=22 format=3 uid="uid://dpdda732yt6tu"]
 
 [ext_resource type="PackedScene" uid="uid://beqqauuw7q5p1" path="res://assets/player.tscn" id="1_7dyq5"]
 [ext_resource type="Script" uid="uid://bjlbdil7w237b" path="res://scenes/scene_tutorial.gd" id="1_kd7jy"]
 [ext_resource type="Texture2D" uid="uid://cxm7tvkvddujc" path="res://assets/Fort of Illusion Files/Layers/tileset.png" id="2_y2ut2"]
+[ext_resource type="PackedScene" uid="uid://c8q45y88hk4k" path="res://assets/enemy.tscn" id="3_y2ut2"]
 [ext_resource type="Texture2D" uid="uid://cs32j1g3w1t86" path="res://assets/Tileset_Darksouls/TILESET_darksouls1.png" id="4_xns12"]
 [ext_resource type="Texture2D" uid="uid://bhoi7sjo4lcpy" path="res://assets/Tileset_Darksouls/TILESET_darksouls2.png" id="5_00iyf"]
 [ext_resource type="Texture2D" uid="uid://b3hqmk1om1hj5" path="res://assets/Tileset_Darksouls/TILESET_darksouls4.png" id="6_j3oho"]
@@ -1018,6 +1019,8 @@ bg_color = Color(0, 0, 0, 0.313726)
 
 [node name="scene_tutorial" type="Node2D"]
 script = ExtResource("1_kd7jy")
+
+[node name="enemy" parent="." instance=ExtResource("3_y2ut2")]
 
 [node name="player" parent="." instance=ExtResource("1_7dyq5")]
 position = Vector2(0, -8)

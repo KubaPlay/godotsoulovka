@@ -463,7 +463,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2asft"]
 radius = 7.0
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_rug40")
 
 [node name="Animace" type="AnimatedSprite2D" parent="."]
