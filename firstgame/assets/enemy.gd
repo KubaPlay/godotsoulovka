@@ -15,7 +15,7 @@ func _ready():
 	start_x_position = global_position.x
 
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	velocity.x = direction * speed
 	move_and_slide()
 
