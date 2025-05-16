@@ -1,0 +1,4 @@
+TODO:
+	_on_EnemyAttackHitbox_body_entered funkce se už vyvola, ale podminka id body entered nebo tak něco se nevyvovala
+	takže se neda damage
+	
