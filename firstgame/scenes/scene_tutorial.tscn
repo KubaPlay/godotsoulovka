@@ -1026,9 +1026,10 @@ bg_color = Color(0, 0.725154, 0.210432, 1)
 script = ExtResource("1_kd7jy")
 
 [node name="enemy" parent="." instance=ExtResource("3_y2ut2")]
+position = Vector2(149, 5)
 
 [node name="player" parent="." instance=ExtResource("1_7dyq5")]
-position = Vector2(0, -8)
+position = Vector2(4, 5)
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2(-1, 8)

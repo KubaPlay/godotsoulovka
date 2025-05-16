@@ -1,13 +1,50 @@
-[gd_scene load_steps=70 format=3 uid="uid://beqqauuw7q5p1"]
+[gd_scene load_steps=80 format=3 uid="uid://beqqauuw7q5p1"]
 
 [ext_resource type="Texture2D" uid="uid://mk0gopkeqk08" path="res://assets/2D-Pixel-Art-Character-Template/Idle/Player Idle 48x48.png" id="1_674bt"]
 [ext_resource type="Script" uid="uid://r8fyxbc4e4nl" path="res://assets/player.gd" id="1_rug40"]
 [ext_resource type="Texture2D" uid="uid://tjkh3kbblavn" path="res://assets/2D-Pixel-Art-Character-Template/Jump/player jump left 48x48-sheet.png" id="2_insbl"]
+[ext_resource type="Texture2D" uid="uid://b3weifuf7chul" path="res://assets/2D-Pixel-Art-Character-Template/Dash/dash.png" id="2_jeibo"]
 [ext_resource type="Texture2D" uid="uid://dccbghrmlr2r1" path="res://assets/2D-Pixel-Art-Character-Template/Roll/Player Roll 48x48.png" id="2_yceh7"]
 [ext_resource type="Texture2D" uid="uid://v2cmog7r3vyx" path="res://assets/2D-Pixel-Art-Character-Template/Run/player run 48x48.png" id="3_rug40"]
 [ext_resource type="Texture2D" uid="uid://coewe0d2spjho" path="res://assets/2D-Pixel-Art-Character-Template/Katana Attack-Sheathe/player katana attack-sheathe 80x64.png" id="4_nsdob"]
 [ext_resource type="Texture2D" uid="uid://dqbbt5llqwhbi" path="res://assets/2D-Pixel-Art-Character-Template/Katana Air Attack/player katana air attack (upper body) 80x64.png" id="5_uovkd"]
 [ext_resource type="Texture2D" uid="uid://xcji060miayf" path="res://assets/2D-Pixel-Art-Character-Template/Katana Continuous Attack/player katana continuous attack 80x64.png" id="5_yceh7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3quy7"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37joo"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcgdk"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akwuj"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vew3d"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qhjq"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45cyv"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmxjk"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epmpw"]
+atlas = ExtResource("2_jeibo")
+region = Rect2(384, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vf2wx"]
 atlas = ExtResource("2_yceh7")
@@ -249,6 +286,38 @@ region = Rect2(336, 0, 48, 42)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3quy7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37joo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcgdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akwuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vew3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qhjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45cyv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmxjk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epmpw")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_vf2wx")
 }, {
 "duration": 1.0,
@@ -469,7 +538,8 @@ script = ExtResource("1_rug40")
 
 [node name="Animace" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7rrun")
-animation = &"m1"
+animation = &"dash"
+frame_progress = 0.859954
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)

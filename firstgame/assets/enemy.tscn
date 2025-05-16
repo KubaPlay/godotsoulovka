@@ -313,8 +313,6 @@ _data = {
 }
 
 [node name="enemy" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 5
 script = ExtResource("1_nyjvj")
 
 [node name="ActionAnimationPlayer" type="AnimatedSprite2D" parent="."]
@@ -324,6 +322,7 @@ animation = &"m1"
 [node name="DetectionRange" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
+light_mask = 4
 position = Vector2(4.5, 0)
 shape = SubResource("RectangleShape2D_nyjvj")
 
@@ -341,6 +340,9 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_2asft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 4
+visibility_layer = 4
+z_index = 2
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_2asft")
 
