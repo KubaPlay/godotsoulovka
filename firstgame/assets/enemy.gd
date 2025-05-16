@@ -229,7 +229,7 @@ func _on_Sprite_animation_finished() -> void:
 		elif player_in_detection_range and player:
 			current_state = State.CHASING
 		else:
-			current_state = State.IDLEs
+			current_state = State.IDLE
 			player = null # Pokud není v žádném dosahu, zapomeň na něj
 
 

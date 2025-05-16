@@ -18,11 +18,17 @@ func _connect_to_player_signals() -> void:
 
 	var player = player_nodes[0] # Get the first player found
 
+	# Ensure 'player' is a valid Node before proceeding
+	if not is_instance_valid(player):
+		printerr("PlayerHealthBar: Player node found in group 'player_character' is not valid!")
+		return
+
 	# Connect to the player's health_updated signal
-	if player.is_connected("health_updated", Callable(self, "_on_player_health_updated")) == false:
+	# Simplified the connection check
+	if not player.is_connected("health_updated", Callable(self, "_on_player_health_updated")):
 		var error_code = player.connect("health_updated", Callable(self, "_on_player_health_updated"))
 		if error_code != OK:
-			printerr("PlayerHealthBar: Failed to connect to player's health_updated signal. Error: ", error_code)
+			printerr("PlayerHealthBar: Failed to connect to player's health_updated signal. Error: ", error_code, " (Is 'player' the correct node and does it have this signal?)")
 		else:
 			print("PlayerHealthBar: Connected to player's health_updated signal.")
 	
@@ -31,9 +37,20 @@ func _connect_to_player_signals() -> void:
 	if player.has_method("get_current_health") and player.has_method("get_max_health"):
 		max_value = player.get_max_health()
 		value = player.get_current_health()
-	elif player.current_health != null and player.max_health != null : # If direct access to vars is okay
-		max_value = player.max_health
-		value = player.current_health
+		print("PlayerHealthBar: Initialized using get_current_health()/get_max_health().")
+	# Changed condition to safely check for property existence on 'player'
+	elif "current_health" in player and "max_health" in player:
+		# Ensure the properties are not null before trying to use them,
+		# though 'in' check often suffices if properties are guaranteed to be non-null when they exist.
+		if player.current_health != null and player.max_health != null:
+			max_value = player.max_health
+			value = player.current_health
+			print("PlayerHealthBar: Initialized using direct access to current_health/max_health properties.")
+		else:
+			printerr("PlayerHealthBar: Player node has current_health/max_health properties, but they are null. Health bar not initialized.")
+	else:
+		# This message will now appear if neither methods nor direct properties are found
+		printerr("PlayerHealthBar: Player node in group 'player_character' does not have 'get_current_health'/'get_max_health' methods nor 'current_health'/'max_health' properties for initial setup. Health bar will update on first signal.")
 
 
 # This function is called when the player's health_updated signal is emitted
