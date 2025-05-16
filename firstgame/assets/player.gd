@@ -18,11 +18,12 @@ const DODGE_SPEED: float = 350.0
 const DODGE_DURATION: float = 0.3  # How long the dodge invulnerability and movement lasts
 const DODGE_COOLDOWN: float = 0.8 # How long before the player can dodge again
 var is_dodging: bool = false
+var is_dashing: bool = false
 var can_dodge: bool = true
 var dodge_direction: Vector2 = Vector2.ZERO
 # IMPORTANT: If "enemies" is Layer 2 in Project Settings, its index is 1.
 const ENEMY_PHYSICS_LAYER_BIT_INDEX: int = 1
-
+const ENEMY_PHYSICS_MASK_BIT_INDEX: int = 1
 # Attack Variables
 var is_attacking: bool = false       # True if any attack animation is active or in combo window
 var can_attack_from_neutral: bool = true  # True if player can start a new attack sequence
@@ -35,6 +36,7 @@ const ANIM_IDLE: StringName = "idle"
 const ANIM_RUN: StringName = "run"
 const ANIM_JUMP: StringName = "jump"
 const ANIM_DODGE: StringName = "dodge"
+const ANIM_DASH: StringName = "dash"
 const ANIM_ATTACK_M1: StringName = "m1"
 const ANIM_ATTACK_M2: StringName = "m2"
 const ANIM_JUMP_ATTACK: StringName = "jumpAttack"
@@ -135,11 +137,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	# --- Movement Logic based on State ---
-	if is_dodging:
+	if is_dodging or is_dashing:
 		velocity = dodge_direction * DODGE_SPEED
 	elif is_attacking:
 		# Minimal movement during attacks, can be customized
-		if is_on_floor(): # Ground attacks might root or slow player
+		if is_on_floor(): # Ground attadcks might root or slow player
 			velocity.x = move_toward(velocity.x, 0, MOVE_SPEED / 2) # Example: Slower strafe or stop
 		else: # Jump attack allows air strafing
 			velocity.x = input_dir_x * MOVE_SPEED
@@ -183,9 +185,12 @@ func _handle_attack_input(current_input_dir_x: float) -> void:
 		# _update_animation will play the correct starting attack animation
 
 func _start_dodge(current_input_dir_x: float) -> void:
-	is_dodging = true
+	if is_on_floor(): is_dodging = true
+	elif !is_on_floor():
+		is_dodging = false
+		is_dashing = true
 	can_dodge = false # Dodge on cooldown
-
+	
 	if current_input_dir_x != 0:
 		dodge_direction = Vector2(current_input_dir_x, 0).normalized()
 	elif animated_sprite.flip_h: # Dodge in current facing direction if no input
@@ -193,13 +198,16 @@ func _start_dodge(current_input_dir_x: float) -> void:
 	else:
 		dodge_direction = Vector2.RIGHT
 
-	set_collision_mask_value(ENEMY_PHYSICS_LAYER_BIT_INDEX, false) # Ignore enemies
+	set_collision_mask_value(ENEMY_PHYSICS_MASK_BIT_INDEX, false) # Collide with enemies again
+	set_collision_layer_value(ENEMY_PHYSICS_LAYER_BIT_INDEX, false) # Ignore enemies
 	dodge_duration_timer.start()
 	# _update_animation will play ANIM_DODGE
 
 func _end_dodge() -> void:
 	is_dodging = false
-	set_collision_mask_value(ENEMY_PHYSICS_LAYER_BIT_INDEX, true) # Collide with enemies again
+	is_dashing = false
+	set_collision_mask_value(ENEMY_PHYSICS_MASK_BIT_INDEX, true) # Collide with enemies again
+	set_collision_layer_value(ENEMY_PHYSICS_LAYER_BIT_INDEX, true)
 	dodge_cooldown_timer.start()
 
 func _reset_attack_state() -> void:
@@ -222,6 +230,8 @@ func _update_animation(current_input_dir_x: float) -> void:
 		# perhaps reset or play idle. For now, assume jump attack handles the combo_count=0 case.
 	elif is_dodging:
 		new_anim = ANIM_DODGE
+	elif is_dashing:
+		new_anim = ANIM_DASH
 	else: # Not attacking, not dodging - standard movement animations
 		if not is_on_floor():
 			new_anim = ANIM_JUMP
