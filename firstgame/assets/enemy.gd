@@ -66,12 +66,15 @@ func _ready() -> void:
 
 	if enemy_attack_hitbox:
 		enemy_attack_hitbox.monitoring = false
-		# PŘÍKLAD připojení signálu hitboxu
-		# if enemy_attack_hitbox.is_connected("body_entered", Callable(self, "_on_EnemyAttackHitbox_body_entered")) == false:
-		#     enemy_attack_hitbox.body_entered.connect(_on_EnemyAttackHitbox_body_entered)
+		if not enemy_attack_hitbox.is_connected("body_entered", Callable(self, "_on_EnemyAttackHitbox_body_entered")):
+			enemy_attack_hitbox.body_entered.connect(_on_EnemyAttackHitbox_body_entered)
+	else:
+		printerr("CHYBA v Enemy: Node $EnemyAttackHitbox nenalezen! Útoky nebudou fungovat.")
+		
+	if not action_anim_player:
+		printerr("CHYBA v Enemy: Node $AnimationPlayer nenalezen! Animace hitboxu nebudou fungovat.")
 
 	sprite.play("idle")
-
 
 func _physics_process(delta: float) -> void:
 	if not sprite: return # Pokud sprite není načten, nic nedělat
@@ -87,8 +90,10 @@ func _physics_process(delta: float) -> void:
 	_update_animation()
 
 func _on_EnemyAttackHitbox_body_entered(body: Node2D) -> void:
+	print("asdasdasdasdsadasdas")
 	if body.is_in_group("player_character"): # Make sure player is in this group too
 		print(name + " zasáhl hráče!")
+		print("ENEMY: Hitbox collided with player_character: ", body.name) 
 		if body.has_method("take_damage"):
 			body.take_damage(ATTACK_DAMAGE) # ATTACK_DAMAGE is defined in your enemy script
 		
@@ -116,7 +121,7 @@ func _state_chasing(delta: float) -> void:
 			sprite.flip_h = (player.global_position.x < global_position.x)
 		print(name + " útočí (ze stavu CHASING)!")
 		if action_anim_player: # Pokud existuje, spustí animaci hitboxu
-			action_anim_player.play("m1") # Ujistěte se, že máte tuto animaci
+			action_anim_player.play("EnemyAttackHitbox.monitoring") # Ujistěte se, že máte tuto animaci
 		return # Po zahájení útoku již nepokračuj v tomto framu s logikou CHASING
 
 	var direction_to_player = (player.global_position - global_position).normalized()
@@ -157,7 +162,7 @@ func _update_animation() -> void:
 
 
 func _on_DetectionRange_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
+	if body.is_in_group("player_character"):
 		player = body as CharacterBody2D
 		player_in_detection_range = true
 		print(name + ": Hráč v detekčním dosahu!")
@@ -173,7 +178,7 @@ func _on_DetectionRange_body_exited(body: Node2D) -> void:
 
 
 func _on_AttackRange_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"): # Pro případ, že by hráč vstoupil rovnou do AttackRange
+	if body.is_in_group("player_character"): # Pro případ, že by hráč vstoupil rovnou do AttackRange
 		if not player: player = body as CharacterBody2D
 		player_in_attack_range = true
 		print(name + ": Hráč v útočném dosahu!")
@@ -184,7 +189,7 @@ func _on_AttackRange_body_entered(body: Node2D) -> void:
 			sprite.play("m1")
 			if player: sprite.flip_h = (player.global_position.x < global_position.x)
 			print(name + " útočí (z _on_AttackRange_body_entered)!")
-			if action_anim_player: action_anim_player.play("m1")
+			if action_anim_player: action_anim_player.play("EnemyAttackHitbox.monitoring")
 
 
 func _on_AttackRange_body_exited(body: Node2D) -> void:
@@ -205,9 +210,11 @@ func _on_AttackCooldownTimer_timeout() -> void:
 		is_attacking = true
 		can_attack = false # Ihned znovu na cooldown
 		sprite.play("m1")
+
+
 		if player: sprite.flip_h = (player.global_position.x < global_position.x)
 		print(name + " útočí (po cooldownu, hráč stále blízko)!")
-		if action_anim_player: action_anim_player.play("m1")
+		if action_anim_player: action_anim_player.play("EnemyAttackHitbox.monitoring")
 
 
 func _on_Sprite_animation_finished() -> void:
@@ -216,7 +223,7 @@ func _on_Sprite_animation_finished() -> void:
 		is_attacking = false
 		attack_cooldown_timer.start() # Spusť cooldown
 
-		if enemy_attack_hitbox and action_anim_player and action_anim_player.current_animation == "m1":
+		if enemy_attack_hitbox and action_anim_player and action_anim_player.current_animation == "EnemyAttackHitbox.monitoring":
 			# Není standardní, ale pokud chcete hitbox deaktivovat zde (lepší je v animaci hitboxu)
 			pass # enemy_attack_hitbox.monitoring = false
 

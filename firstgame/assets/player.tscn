@@ -463,7 +463,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2asft"]
 radius = 7.0
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" groups=["player_character"]]
 collision_mask = 6
 script = ExtResource("1_rug40")
 
